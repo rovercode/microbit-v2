@@ -202,6 +202,8 @@ set(LIB_FOLDERS "")
 MESSAGE (STATUS "Adding library path: (${PROJECT_SOURCE_DIR}/${LIB_DEST})")
 include_directories(${PROJECT_SOURCE_DIR}/${LIB_DEST})
 
+include_directories(${PROJECT_SOURCE_DIR}/)
+
 #add_subdirectory("${PROJECT_SOURCE_DIR}/${LIB_DEST}/${dep}")
 
 # "import" and add any specified libraries to the build list
