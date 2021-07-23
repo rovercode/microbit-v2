@@ -1,0 +1,31 @@
+name: Deploy micro:bit v2 firmware
+
+on:
+  push:
+    branches:
+    - alpha
+    - beta
+    - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Get branch name
+      id: branch-name
+      uses: tj-actions/branch-names@v4.5
+    - name: Build the firmware image
+      run: docker run -v $(pwd):/app --rm microbit-tools
+    - name: Change file name
+      run: cp MICROBIT.hex rovercode-v2.hex
+    - uses: jakejarvis/s3-sync-action@master
+      with:
+        args: --acl public-read
+      env:
+        AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: 'us-east-2'
+        SOURCE_DIR: './rovercode-v2.hex'
+        DEST_DIR: ${{ steps.branch-name.outputs.current_branch }}
