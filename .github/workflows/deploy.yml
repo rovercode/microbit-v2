@@ -11,6 +11,15 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+    - name: Notify build is starting
+      id: slack
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      uses: voxmedia/github-action-slack-notify-build@v1
+      with:
+        channel: ${{ secrets.SLACK_NOTIFICATION_CHANNEL }}
+        status: STARTING
+        color: warning
     - uses: actions/checkout@master
     - name: Get branch name
       id: branch-name
@@ -31,3 +40,23 @@ jobs:
         AWS_REGION: 'us-east-2'
         SOURCE_DIR: './deploy'
         DEST_DIR: ${{ steps.branch-name.outputs.current_branch }}
+    - name: Notify slack success
+      if: success()
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      uses: voxmedia/github-action-slack-notify-build@v1
+      with:
+        message_id: ${{ steps.slack.outputs.message_id }}
+        channel: ${{ secrets.SLACK_NOTIFICATION_CHANNEL }}
+        status: SUCCESS
+        color: good
+    - name: Notify slack fail
+      if: failure()
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      uses: voxmedia/github-action-slack-notify-build@v1
+      with:
+        message_id: ${{ steps.slack.outputs.message_id }}
+        channel: ${{ secrets.SLACK_NOTIFICATION_CHANNEL }}
+        status: FAILED
+        color: danger
