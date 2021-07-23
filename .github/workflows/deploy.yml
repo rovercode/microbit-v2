@@ -19,8 +19,8 @@ jobs:
       run: docker build -t microbit-tools .
     - name: Build the firmware image
       run: docker run -v $(pwd):/app --rm microbit-tools
-    - name: Change file name
-      run: cp MICROBIT.hex rovercode-v2.hex
+    - name: Setup file to deploy
+      run: mkdir deploy && cp MICROBIT.hex deploy/rovercode-v2.hex
     - uses: jakejarvis/s3-sync-action@master
       with:
         args: --acl public-read
@@ -29,5 +29,5 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_REGION: 'us-east-2'
-        SOURCE_DIR: './rovercode-v2.hex'
+        SOURCE_DIR: './deploy'
         DEST_DIR: ${{ steps.branch-name.outputs.current_branch }}
