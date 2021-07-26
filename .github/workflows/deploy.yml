@@ -5,7 +5,7 @@ on:
     branches:
     - alpha
     - beta
-    - master
+    - main
 
 jobs:
   deploy:
