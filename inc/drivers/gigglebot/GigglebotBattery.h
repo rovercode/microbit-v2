@@ -18,6 +18,6 @@ class GigglebotBattery : public MicroBitComponent
     /**
       * Periodic callback from MicroBit idle thread.
       */
-    virtual void idleTick();
+    virtual void idleCallback();
 };
 #endif

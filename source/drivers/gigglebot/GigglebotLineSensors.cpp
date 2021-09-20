@@ -11,7 +11,7 @@ uint16_t GigglebotLineSensors::getLeftReading() { return this->readings[1]; }
 
 uint16_t GigglebotLineSensors::getRightReading() { return this->readings[0]; }
 
-void GigglebotLineSensors::idleTick() {
+void GigglebotLineSensors::idleCallback() {
   unsigned char command = GET_LINE_SENSORS;
   unsigned char buffer[3];
 

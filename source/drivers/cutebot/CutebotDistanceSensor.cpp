@@ -47,7 +47,7 @@ uint64_t measurePulseWidthMicroSecs(MicroBitPin* pin) {
 #endif
 }
 
-void CutebotDistanceSensor::idleTick()
+void CutebotDistanceSensor::idleCallback()
 {
     if (++counter < CUTEBOT_PERIOD_DISTANCE_SENSOR)
     {
