@@ -20,7 +20,7 @@ uint16_t CutebotLineSensors::getRightReading()
     return this->readings[1];
 }
 
-void CutebotLineSensors::idleTick()
+void CutebotLineSensors::idleCallback()
 {
     if (++counter < CUTEBOT_PERIOD_LINE_SENSORS)
     {

@@ -9,7 +9,7 @@ GigglebotBattery::GigglebotBattery(MicroBitI2C &_i2c)
 
 uint16_t GigglebotBattery::getVoltage() { return this->voltage; }
 
-void GigglebotBattery::idleTick() {
+void GigglebotBattery::idleCallback() {
   unsigned char command = GET_VOLTAGE_BATTERY;
   unsigned char buffer[2];
 
